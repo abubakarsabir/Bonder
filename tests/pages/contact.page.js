@@ -79,8 +79,8 @@ class ContactsPage {
 
     // Additional method to verify the new contact in the list can be added here.
 
-    async verifyNewContactAdded(firstName){
-        const verifyContact = '//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]' ;
+    async verifyNewContactAdded(firstName) {
+        const verifyContact = '//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]';
         await this.page.waitForSelector(verifyContact);
         const verifyName = await this.page.$eval(verifyContact, (cell) => cell.textContent);
 
@@ -91,34 +91,36 @@ class ContactsPage {
         }
     }
 
-    async openContactToEdit(){ 
-       await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
-       const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
-       await element.click();
-  
+    async openContactToEdit() {
+        await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
+        const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
+        await element.click();
+
         // Wait for the slider to appear (adjust the timeout as needed)
-       await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
+        await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
     }
 
-    async addStreet(street){
+    async addStreet(street) {
         await this.page.fill('input[name="street"]', street);
     }
 
-    async addHousenumber(hnumber){
+    async addHousenumber(hnumber) {
         await this.page.fill('input[name="housenr"]', hnumber);
     }
 
-    async addCity(city){
+    async addCity(city) {
         await this.page.fill('input[name="city"]', city);
     }
 
-    async addPostalcode(postalCode){
+    async addPostalcode(postalCode) {
         await this.page.fill('input[name="zip"]', postalCode);
     }
 
-    async addNotes(notes){
-        
+    async addNotes(notes) {
+        await this.page.waitForSelector('textarea[name="note"]', { timeout: 10000 });
+        await this.page.fill('textarea[name="note"]', notes);
     }
+
 }
 
 module.exports = {
