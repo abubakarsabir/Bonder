@@ -61,6 +61,10 @@ class LoginPage {
         expect(isEnabled).toBeTruthy();
     }
 
+    async filterCreatedEmails(){
+        await this.page.click('//*[@id="UsersSortButtoncreatedAt"]/span');
+    }
+
 }
 
 module.exports = {

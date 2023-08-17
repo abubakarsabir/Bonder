@@ -25,7 +25,7 @@ test.describe("Contacts Test Cases", () => {
     });
   });
 
-  test("Create New Contact", async () => {
+  test("Create Contact", async () => {
     const randomSuffix = Math.floor(Math.random() * 10000);
     const randomEmail = `test${randomSuffix}@vertical.codes`;
     const randomfn = `Ab${randomSuffix}`;
@@ -45,12 +45,31 @@ test.describe("Contacts Test Cases", () => {
 
     await contactsPage.clickCreate();
 
-    await page.waitForTimeout(20000);
 
-    // await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
+    await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
     await contactsPage.clickSave();
 
-    // await contactsPage.verifySlideOverClosed();
+    await contactsPage.verifySlideOverClosed();
     // Add assertion to verify the new contact in the list.
+
+    await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
   });
+
+  test("Edit Contact", async () => {
+    await contactsPage.openContactToEdit();
+    await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
+    
+    await contactsPage.addStreet(process.env.STREET);
+    await contactsPage.addHousenumber(process.env.HOUSE_NUMBER);
+    await contactsPage.addCity(process.env.CITY);
+    await contactsPage.addPostalcode(process.env.ZIP_CODE);
+    await contactsPage.addNotes(process.env.NOTES);
+    await contactsPage.clickSave();
+    await contactsPage.verifySlideOverClosed();
+
+    
+
+    await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
+  });
+
 });

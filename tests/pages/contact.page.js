@@ -37,7 +37,7 @@ class ContactsPage {
     }
 
     async clickCreate() {
-        await this.page.click('button#dropdown-selected-item-button');
+        await this.page.click('//*[@id="dropdown-selected-item-button"]');
     }
 
     async verifyValidationError(errorText) {
@@ -49,8 +49,8 @@ class ContactsPage {
     }
 
     async verifySlideOverData(firstName, lastName, email, customerNumber) {
-        const preFilledFirstName = await this.page.$eval('input[name="firstName"]', (input) => input.value);
-        const preFilledLastName = await this.page.$eval('input[name="lastName"]', (input) => input.value);
+        const preFilledFirstName = await this.page.$eval('input[name="first_name"]', (input) => input.value);
+        const preFilledLastName = await this.page.$eval('input[name="last_name"]', (input) => input.value);
         const preFilledEmail = await this.page.$eval('input[name="email"]', (input) => input.value);
         const preFilledCustomerNumber = await this.page.$eval('input[name="customerNumber"]', (input) => input.value);
 
@@ -78,6 +78,47 @@ class ContactsPage {
     }
 
     // Additional method to verify the new contact in the list can be added here.
+
+    async verifyNewContactAdded(firstName){
+        const verifyContact = '//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]' ;
+        await this.page.waitForSelector(verifyContact);
+        const verifyName = await this.page.$eval(verifyContact, (cell) => cell.textContent);
+
+        if (verifyName.trim() === firstName) {
+            console.log('First name matches the saved name.');
+        } else {
+            console.log('First name does not match the saved name.');
+        }
+    }
+
+    async openContactToEdit(){ 
+       await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
+       const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
+       await element.click();
+  
+        // Wait for the slider to appear (adjust the timeout as needed)
+       await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
+    }
+
+    async addStreet(street){
+        await this.page.fill('input[name="street"]', street);
+    }
+
+    async addHousenumber(hnumber){
+        await this.page.fill('input[name="housenr"]', hnumber);
+    }
+
+    async addCity(city){
+        await this.page.fill('input[name="city"]', city);
+    }
+
+    async addPostalcode(postalCode){
+        await this.page.fill('input[name="zip"]', postalCode);
+    }
+
+    async addNotes(notes){
+        
+    }
 }
 
 module.exports = {

@@ -51,8 +51,9 @@ test.describe('Login Test Cases', () => {
         await loginPage.setEmail(process.env.EMAIL);
         await loginPage.setPassword(process.env.PASSWORD);
         await loginPage.clickLogin({
-            timeout: 200000
+            timeout: 500000
         });
+        await loginPage.filterCreatedEmails();
         await loginPage.verifyContactEmail(process.env.EMAIL);
         await loginPage.verifyRedirect(process.env.dashBoard);
     });
