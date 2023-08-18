@@ -66,10 +66,17 @@ test.describe("Contacts Test Cases", () => {
     await contactsPage.addNotes(process.env.NOTES);
     await contactsPage.clickSave();
     await contactsPage.verifySlideOverClosed();
-
-    
-
     await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
   });
+
+  test("Search Contact", async ()=>{
+    await contactsPage.typeContactToSearch();
+    await contactsPage.applyFilter();
+    await contactsPage.verifyContactAppeared();
+    await contactsPage.clearSearch();
+    await contactsPage.applyFilter();
+    await contactsPage.applyFilter();
+    await contactsPage.verifyFilterCleared(); 
+  })
 
 });

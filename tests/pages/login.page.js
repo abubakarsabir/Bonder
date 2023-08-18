@@ -42,8 +42,8 @@ class LoginPage {
     async verifyRedirect(expectedUrl) {
         await this.page.waitForURL(expectedUrl, { timeout: 200000 });
         expect(this.page.url()).toBe(expectedUrl);
-      }
-      
+    }
+
 
     async verifyContactEmail(email) {
         const emailElement = await this.page.waitForSelector(

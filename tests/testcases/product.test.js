@@ -82,4 +82,43 @@ test.describe("Product Test Cases", () => {
         await productPage.closeProductSlider();
         await contactsPage.verifySlideOverClosed();
     })
+
+    test('Search Product', async () => {
+        await productPage.openMenu();
+        await productPage.clickProductsOption();
+        await productPage.searchNonExistingProduct();
+        await productPage.searchExistingProduct();
+        await productPage.clickFilter();
+        await productPage.checkFilterApplied();
+        await productPage.clickFilter();
+        await productPage.checkFilterCleared();
+    })
+
+    test('Create New Product Item', async () => {
+        await productPage.openMenu();
+        await productPage.clickOnProductItem();
+        await productPage.addNewProductItem();
+        await contactsPage.clickCreate();
+        await productPage.verifyNameError();
+        await productPage.clickProductDropDown();
+        await productPage.clickProductItem();
+        await contactsPage.clickCreate();
+        await productPage.verifyStatus();
+        await contactsPage.clickSave();
+        await productPage.closeProductSlider();
+        await contactsPage.verifySlideOverClosed();
+        await productPage.checkProduct();
+        await productPage.clickDeleteButton();
+        await productPage.confirmDelete();
+    })
+
+    test('Search Product Item', async () => {
+        await productPage.openMenu();
+        await productPage.clickOnProductItem();
+        await productPage.searchNonExistingProductItem();
+        await productPage.searchExistingProductItem();
+        await productPage.clickFilterProductItem();
+        await productPage.checkFilterAppliedProductItem();
+        await productPage.clickFilterProductItem();
+    })
 });

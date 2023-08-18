@@ -1,6 +1,7 @@
 const {
     expect
 } = require('@playwright/test');
+const assert = require('assert');
 require('dotenv').config();
 
 class ContactsPage {
@@ -119,6 +120,40 @@ class ContactsPage {
     async addNotes(notes) {
         await this.page.waitForSelector('textarea[name="note"]', { timeout: 10000 });
         await this.page.fill('textarea[name="note"]', notes);
+    }
+
+    async typeContactToSearch() {
+        await this.page.fill('//*[@id="UsersSearchPhraseTextBox"]', 'test');
+    }
+
+    async verifyContactAppeared() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        const linkSelector = 'a#UsersCell-firstName-8d8edd50-a4cd-4556-a766-1370525b6f31';
+
+        // Extract the text content of the <a> element
+        const linkText = await this.page.$eval(linkSelector, link => link.textContent);
+
+        // Perform an assertion on the extracted text
+        assert.strictEqual(linkText, 'Test', 'Text does not match expected value.');
+    }
+
+    async applyFilter() {
+        await this.page.getByRole('cell', { name: 'created at' }).click();
+    }
+
+    async clearSearch() {
+        await this.page.fill('//*[@id="UsersSearchPhraseTextBox"]', '');
+    }
+
+    async verifyFilterCleared() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        const linkSelector = '//*[@id="UsersCell-firstName-7712009d-2e67-4b08-bbc4-0244f9c41eab"]';
+
+        // Extract the text content of the <a> element
+        const linkText = await this.page.$eval(linkSelector, link => link.textContent);
+
+        // Perform an assertion on the extracted text
+        assert.strictEqual(linkText, 'Ab1581', 'Text does not match expected value.');
     }
 
 }
