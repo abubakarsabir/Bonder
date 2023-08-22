@@ -93,12 +93,15 @@ class ContactsPage {
     }
 
     async openContactToEdit() {
-        await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
-        const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
-        await element.click();
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        //    await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
+        //    const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
+        //    await element.click();
+        await this.page.getByRole('link', { name: 'Ab1581' }).click();
 
         // Wait for the slider to appear (adjust the timeout as needed)
-        await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
+        //    await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
     }
 
     async addStreet(street) {

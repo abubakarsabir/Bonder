@@ -53,4 +53,19 @@ test.describe("Customer Test Cases", () => {
         await customerPage.verifyPopulatedTable();
     })
 
+    test('Edit Customer', async () => {
+        await customerPage.clickCustomerMenu();
+        await customerPage.clickEditButton();
+        await customerPage.setAddress();
+        await customerPage.saveEditCustomer();
+        await customerPage.searchCustomer();
+        await customerPage.searchExistingCustomer();
+        await customerPage.clickEditButton();
+        await customerPage.addCustomer();
+        await customerPage.clickSaveddedCustomerButton();
+        await customerPage.saveAddedCustomer();
+        await customerPage.verifyContactAdded();
+        await customerPage.clickEditButton();
+    })
+
 });

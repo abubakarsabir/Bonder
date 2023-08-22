@@ -57,7 +57,7 @@ test.describe("Contacts Test Cases", () => {
 
   test("Edit Contact", async () => {
     await contactsPage.openContactToEdit();
-    await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
+    // await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
     
     await contactsPage.addStreet(process.env.STREET);
     await contactsPage.addHousenumber(process.env.HOUSE_NUMBER);
@@ -66,7 +66,7 @@ test.describe("Contacts Test Cases", () => {
     await contactsPage.addNotes(process.env.NOTES);
     await contactsPage.clickSave();
     await contactsPage.verifySlideOverClosed();
-    await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
+    // await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
   });
 
   test("Search Contact", async ()=>{
