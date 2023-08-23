@@ -41,3 +41,5 @@ npx playwright test path/to/your/test-file.spec.js
 
 You can capture screenshots or create a trace for debugging:
 npx playwright test --screenshot-on-failure --trace
+## Running one worker at a time 
+npx playwright test --workers=1
