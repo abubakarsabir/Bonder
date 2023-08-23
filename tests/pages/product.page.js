@@ -2,6 +2,7 @@ const {
     expect
 } = require('@playwright/test');
 const assert = require('assert');
+const path = require('path');
 require('dotenv').config();
 
 
@@ -49,7 +50,7 @@ class ProductPage {
     }
 
     async addImage() {
-        await this.page.getByRole('button', { name: 'ADD' }).first().click();
+        await this.page.locator('span.tag--content:has-text("ADD")').first().click();
     }
 
     async openImageBox() {
@@ -58,9 +59,13 @@ class ProductPage {
 
     async selectImage() {
 
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        const fileChooserPromise = this.page.waitForEvent('filechooser');
         await this.page.waitForSelector('//*[@id="uploadButton"]');
         await this.page.locator('//*[@id="uploadButton"]').click();
+        //.setInputFiles('../../testfile.png');
+        const fileChooser = await fileChooserPromise;
+        await fileChooser.setFiles('testfile.png');
+
     }
 
     async clickNewContent() {
@@ -140,13 +145,13 @@ class ProductPage {
 
         // Expected value to assert
         const expectedValue = 'Produced';
-        await expect(inputValue).toBe('Produced');
+        await expect(inputValue).toBe(expectedValue);
 
     }
 
     async checkProduct() {
         await new Promise(resolve => setTimeout(resolve, 5000));
-        await this.page.getByRole('checkbox').click();
+        await this.page.getByRole('row', { name: 'sdfsdf' }).getByRole('checkbox').click();
     }
 
     async clickDeleteButton() {
@@ -179,6 +184,120 @@ class ProductPage {
 
         // Assert that the text contains "mno"
         assert.ok(linkText.includes('mno'), 'Text does not contain "mno".');
+    }
+
+    async clickCreateButton() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.getByRole('button', { name: 'Create' }).click();
+    }
+
+    async searchNonExistingProductGroup() {
+        await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', 'random');
+    }
+
+    async searchExistingProductGroup() {
+        await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', ' ');
+        await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', 'te');
+    }
+
+    async checkFilterAppliedProductGroup() {
+        await expect(this.page.getByText('te1103')).toBeVisible();
+    }
+
+    async selectItemToEdit() {
+        await this.page.getByRole('link', { name: 'te2110' }).click();
+    }
+
+    // async addImage() {
+    //     const secondTableRow = await this.page.waitForSelector('table tbody tr:nth-child(2)');
+    //     await secondTableRow.click();
+    // }
+
+    async createNewContent() {
+        await this.page.getByRole('button', { name: 'New content' }).click({ timeout: 5 * 60 * 1000 });
+    }
+
+    async uploadImage() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.locator('input[name="nameen"]').fill('test');
+
+        const fileInput = await this.page.$('input[type="file"]');
+        const uploadButton = await this.page.$('#uploadButton');
+
+        // Click the "Select file" button to trigger the file input dialog.
+        await uploadButton.click();
+
+        // Use the `input` method to set a file for the file input.
+        await fileInput.setInputFiles('../bonder/testfile.pdf'); // Replace with the actual file path.
+    }
+
+    async saveUploadedfile() {
+        await this.page.getByLabel('New content').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+    }
+
+    async savePicture() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        // await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
+        // await this.page.getByLabel('New content').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
+        await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click();
+    }
+
+    async saveFinalChanges() {
+        await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+    }
+
+    async clearImage() {
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.locator('#removeButton').click();
+    }
+
+    async navigateToProducts() {
+        await this.page.getByRole('link', { name: 'Products', exact: true }).click();
+    }
+
+    async chooseProduct() {
+        await this.page.locator('//a[@id="ProductsCell-Productgroup.BaseInfo.Name-822339be-e190-4131-9dc0-13e1ddc023d0"]').click();
+    }
+
+    async setProductAttributes() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.locator('input[name="articlenumber"]').fill('12345');
+        await this.page.locator('textarea[name="shortDescriptionen"]').fill('hello world');
+        // await this.page.getByRole('button', { name: 'Save' }).click();
+    }
+
+    async uploadProductImage() {
+        await this.page.getByLabel('New content').locator('input[name="nameen"]').fill('test');
+        const fileInput = await this.page.$('input[type="file"]');
+        const uploadButton = await this.page.$('#uploadButton');
+
+        // Click the "Select file" button to trigger the file input dialog.
+        await uploadButton.click();
+
+        // Use the `input` method to set a file for the file input.
+        await fileInput.setInputFiles('../bonder/testfile.pdf'); // Replace with the actual file path.
+    }
+
+    async setUnitValue() {
+        await this.page.locator('#headlessui-combobox-button-14 a').click();
+        await this.page.getByText('Pieces').click();
+        // await this.page.getByText('Pieces').click({timeout:50000});
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+
+    async saveChanges() {
+        await this.page.getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 100 });
+    }
+
+    async removeUnitValue() {
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.locator('#headlessui-combobox-button-14 a').click();
+        await this.page.getByText('Unknown').click();
+    }
+
+    async saveNewContent(){
+        await this.page.fill('input[name="nameen"]', 'test data');
+        await this.page.locator('#saveButton').nth(1).click({force: true});
     }
 }
 

@@ -7,6 +7,8 @@ class LoginPage {
 
     async navigate() {
         await this.page.goto("https://prototype.getbonder.com/backoffice/login");
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForURL('**/login');
     }
 
     async setEmail(email) {
@@ -61,7 +63,7 @@ class LoginPage {
         expect(isEnabled).toBeTruthy();
     }
 
-    async filterCreatedEmails(){
+    async filterCreatedEmails() {
         await this.page.click('//*[@id="UsersSortButtoncreatedAt"]/span');
     }
 

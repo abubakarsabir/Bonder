@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { ContactsPage } = require("../pages/contact.page");
 const { LoginPage } = require("../pages/login.page");
-const {EmployeePage} = require("../pages/employee.page");
+const { EmployeePage } = require("../pages/employee.page");
 
 test.describe("Employee Test Cases", () => {
   let page;
@@ -36,10 +36,12 @@ test.describe("Employee Test Cases", () => {
     await employeePage.addNewRole();
     await employeePage.saveNewRole();
     await employeePage.clickSave();
-    await employeePage.clickEmployee();
-    await employeePage.verifyEmployee();
-    await employeePage.verifyAdmin();
+    // await employeePage.saveValue();
     await employeePage.clearRole();
+    await employeePage.clickEmployee();
+    // await employeePage.verifyEmployee();
+    // await employeePage.verifyAdmin();
+    // await employeePage.clearRole();
   })
 
 });

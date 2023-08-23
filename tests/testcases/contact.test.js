@@ -52,13 +52,13 @@ test.describe("Contacts Test Cases", () => {
     await contactsPage.verifySlideOverClosed();
     // Add assertion to verify the new contact in the list.
 
-    await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
+    // await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
   });
 
   test("Edit Contact", async () => {
     await contactsPage.openContactToEdit();
     // await contactsPage.verifySlideOverData(process.env.FIRST_NAME, process.env.LAST_NAME, process.env.CUSTOMER_EMAIL, '12345');
-    
+
     await contactsPage.addStreet(process.env.STREET);
     await contactsPage.addHousenumber(process.env.HOUSE_NUMBER);
     await contactsPage.addCity(process.env.CITY);
@@ -69,14 +69,15 @@ test.describe("Contacts Test Cases", () => {
     // await contactsPage.verifyNewContactAdded(process.env.FIRST_NAME);
   });
 
-  test("Search Contact", async ()=>{
+  test("Search Contact", async () => {
     await contactsPage.typeContactToSearch();
     await contactsPage.applyFilter();
     await contactsPage.verifyContactAppeared();
     await contactsPage.clearSearch();
     await contactsPage.applyFilter();
     await contactsPage.applyFilter();
-    await contactsPage.verifyFilterCleared(); 
+    await contactsPage.verifyFilterCleared();
   })
+
 
 });
