@@ -16,21 +16,28 @@ test.describe("Product Test Cases", () => {
     productPage = new ProductPage(page);
     contactsPage = new ContactsPage(page);
     customerPage = new CustomerPage(page);
-  });
-
-  test.afterAll(async () => {
-    await page.close();
-  });
-
-  test.beforeEach(async () => {
     loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.setEmail(process.env.EMAIL);
     await loginPage.setPassword(process.env.PASSWORD);
     await loginPage.clickLogin({
       timeout: 200000,
-    });
+    })
   });
+
+  test.afterAll(async () => {
+    await page.close();
+  });
+
+  // test.beforeEach(async () => {
+  //   loginPage = new LoginPage(page);
+  //   await loginPage.navigate();
+  //   await loginPage.setEmail(process.env.EMAIL);
+  //   await loginPage.setPassword(process.env.PASSWORD);
+  //   await loginPage.clickLogin({
+  //     timeout: 200000,
+  //   });
+  // });
 
 
   test('Create Product Group', async () => {
@@ -48,7 +55,7 @@ test.describe("Product Test Cases", () => {
     await productPage.verifyProductAppeared(randomln);
   })
 
-  test.only('Edit Product Group', async () => {
+  test('Edit Product Group', async () => {
     const randomSuffix = Math.floor(Math.random() * 10000);
     const randomln = `te${randomSuffix}`;
     const randomdescription = `test${randomSuffix}vertical.codes`;

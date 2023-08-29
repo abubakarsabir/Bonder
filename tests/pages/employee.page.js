@@ -44,12 +44,18 @@ class EmployeePage {
     }
 
     async saveNewRole() {
-
-        await this.page.getByLabel('Roles add', { exact: true }).getByRole('button', { name: 'Save' }).click();
+        await this.page.locator('#saveButton').nth(1).click();
+        //await this.page.getByLabel('Roles add').getByRole('button', { name: 'Save' }).click();
     }
 
     async clickSave() {
-        await this.page.locator('//*[@id="saveButton"]').nth(0).click({ timeout: 5 * 10 * 60 });
+        await this.page.waitForTimeout(5000);
+        await this.page.locator('#saveButton').nth(1).click();
+        // await this.page.waitForTimeout(5000);  // waits for 2 seconds (2000 milliseconds)
+        // const saveButtonLocator = this.page.locator('//*[@id="saveButton"]').nth(0);
+        // await saveButtonLocator.isVisible();
+        // await saveButtonLocator.click({ force: true });
+
         // await this.page.getByLabel('Roles').getByRole('button', { name: 'Save' }).click({timeout: 5*10*60});
         // await new Promise(resolve => setTimeout(resolve, 5000))
         // await this.page.getByRole('button', { name: 'Save' }).nth(0).click();
@@ -59,7 +65,7 @@ class EmployeePage {
 
     async saveValue() {
         await new Promise(resolve => setTimeout(resolve, 5000))
-        // await this.page.getByRole('button', { name: 'Save' }).click();
+        await this.page.getByRole('button', { name: 'Save' }).click();
         // await this.page.getByRole('button', { name: 'Close ' }).click();
     }
 

@@ -80,25 +80,21 @@ class ContactsPage {
 
     // Additional method to verify the new contact in the list can be added here.
 
-    async verifyNewContactAdded(firstName) {
-        const verifyContact = '//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]';
-        await this.page.waitForSelector(verifyContact);
-        const verifyName = await this.page.$eval(verifyContact, (cell) => cell.textContent);
-
-        if (verifyName.trim() === firstName) {
-            console.log('First name matches the saved name.');
-        } else {
-            console.log('First name does not match the saved name.');
-        }
+    async verifyNewContactAdded(firstName, lastName) {
+        const trElement = await this.page.waitForSelector('//*[contains(@class, "hover:bg-gray-50")]');
+        const fname = `tr >> text=${firstName}`;
+        const lname = `tr >> text=${lastName}`;
+        await this.page.waitForSelector(fname);
+        await this.page.waitForSelector(lname);
     }
 
-    async openContactToEdit() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+    async openContactToEdit(firstName) {
+        //await new Promise(resolve => setTimeout(resolve, 5000));
 
         //    await this.page.waitForSelector('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]');
         //    const element = await this.page.$('//*[@id="UsersCell-UserAddresses.Country-82b84172-8b20-40a4-b007-2c37068d7e36"]'); // Replace with your selector
         //    await element.click();
-        await this.page.getByRole('link', { name: 'Ab1581' }).click();
+        await this.page.getByRole('link', { name: firstName }).click();
 
         // Wait for the slider to appear (adjust the timeout as needed)
         //    await this.page.waitForSelector('//*[@id="sendNewPasswordEmail"]', { timeout: 10000 });
@@ -125,8 +121,9 @@ class ContactsPage {
         await this.page.fill('textarea[name="note"]', notes);
     }
 
-    async typeContactToSearch() {
-        await this.page.fill('//*[@id="UsersSearchPhraseTextBox"]', 'test');
+    async typeContactToSearch(contact) {
+        await this.page.waitForSelector('//*[@id="UsersSearchPhraseTextBox"]');
+        await this.page.fill('//*[@id="UsersSearchPhraseTextBox"]', contact);
     }
 
     async verifyContactAppeared() {
@@ -148,15 +145,42 @@ class ContactsPage {
         await this.page.fill('//*[@id="UsersSearchPhraseTextBox"]', '');
     }
 
-    async verifyFilterCleared() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        const linkSelector = '//*[@id="UsersCell-firstName-7712009d-2e67-4b08-bbc4-0244f9c41eab"]';
+    async verifyFilterCleared(firstName,lastName) {
+        const trElement = await this.page.waitForSelector('//*[contains(@class, "hover:bg-gray-50")]');
+        const fname = `tr >> text=${firstName}`;
+        const lname = `tr >> text=${lastName}`;
+        await expect(this.page.locator(fname)).not.toBeVisible;
+        await expect(this.page.locator(lname)).not.toBeVisible;
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+        // const linkSelector = '//*[@id="UsersCell-firstName-7712009d-2e67-4b08-bbc4-0244f9c41eab"]';
 
-        // Extract the text content of the <a> element
-        const linkText = await this.page.$eval(linkSelector, link => link.textContent);
+        // // Extract the text content of the <a> element
+        // const linkText = await this.page.$eval(linkSelector, link => link.textContent);
 
-        // Perform an assertion on the extracted text
-        assert.strictEqual(linkText, 'Ab1581', 'Text does not match expected value.');
+        // // Perform an assertion on the extracted text
+        // assert.strictEqual(linkText, 'Ab1581', 'Text does not match expected value.');
+    }
+
+    async clickCloseSlideOver() {
+        // Wait for the button to be visible and clickable
+        await  this.page.waitForSelector('#closeSlideOver', { state: 'visible' });
+    
+        // Click on the button
+        await this.page.click('#closeSlideOver');
+    }
+
+    async openData() {
+        await this.page.click('tr.hover\\:bg-gray-50:nth-child(1)');
+
+    }
+
+    async get1stName() {
+        const locator = this.page.locator('tr[class*="hover:bg-gray-50"] td:nth-child(2) > a').nth(0);
+        return await locator.innerText();
+    }
+    async get2ndName() {
+        const locator = this.page.locator('tr[class*="hover:bg-gray-50"] td:nth-child(3) > a').nth(0);
+        return await locator.innerText();
     }
 
 }

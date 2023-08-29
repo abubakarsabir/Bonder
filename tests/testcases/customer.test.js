@@ -14,13 +14,6 @@ test.describe("Customer Test Cases", () => {
     page = await browser.newPage();
     customerPage = new CustomerPage(page);
     contactsPage = new ContactsPage(page);
-  });
-
-  test.afterAll(async () => {
-    await page.close();
-  });
-
-  test.beforeEach(async () => {
     loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.setEmail(process.env.EMAIL);
@@ -30,12 +23,24 @@ test.describe("Customer Test Cases", () => {
     });
   });
 
+  test.afterAll(async () => {
+    await page.close();
+  });
+
+  // test.beforeEach(async () => {
+  //   loginPage = new LoginPage(page);
+  //   await loginPage.navigate();
+  //   await loginPage.setEmail(process.env.EMAIL);
+  //   await loginPage.setPassword(process.env.PASSWORD);
+  //   await loginPage.clickLogin({
+  //     timeout: 200000,
+  //   });
+  // });
+
   test("Create Customer", async () => {
     const randomSuffix = Math.floor(Math.random() * 10000);
     const randomEmail = `test${randomSuffix}@vertical.codes`;
     const randomln = `te${randomSuffix}`;
-
-
     await customerPage.clickNewCustomer();
     await customerPage.verifySearchBoxEmpty();
     await contactsPage.clickCreate();

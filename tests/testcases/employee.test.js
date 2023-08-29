@@ -11,6 +11,7 @@ test.describe("Employee Test Cases", () => {
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
     employeePage = new EmployeePage(page);
+    contactsPage = new ContactsPage(page);
   });
 
   test.afterAll(async () => {
@@ -27,21 +28,24 @@ test.describe("Employee Test Cases", () => {
     });
   });
 
-  test('Employee Role', async () => {
+  test.only('Employee Role', async () => {
     await employeePage.clickEmployee();
     await employeePage.clickCustomers();
+    await contactsPage.applyFilter();
+    await contactsPage.applyFilter();
     await employeePage.selectCustomer();
     await employeePage.selectRole();
     await employeePage.addRole();
     await employeePage.addNewRole();
     await employeePage.saveNewRole();
-    await employeePage.clickSave();
-    // await employeePage.saveValue();
+    await employeePage.saveNewRole();
+    //await employeePage.clickSave();
+   // await employeePage.saveValue();
+    //await employeePage.clearRole();
+    //await employeePage.clickEmployee();
+    await employeePage.verifyEmployee();
+    await employeePage.verifyAdmin();
     await employeePage.clearRole();
-    await employeePage.clickEmployee();
-    // await employeePage.verifyEmployee();
-    // await employeePage.verifyAdmin();
-    // await employeePage.clearRole();
   })
 
 });
