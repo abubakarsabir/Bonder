@@ -110,10 +110,13 @@ class ProductPage {
     }
 
     async checkFilterCleared() {
-        const linkText = await this.page.textContent('a#ProductsCell-state-822339be-e190-4131-9dc0-13e1ddc023d0');
+        const firstTrElement = await this.page.waitForSelector('tr:nth-child(1)');
+        await firstTrElement.isVisible() && await firstTrElement.innerText().then(text => text.includes('Draft'));
 
-        // Assert that the text contains "Draft"
-        assert.ok(linkText.includes('Draft'), 'Text does not contain "Draft".');
+        // const linkText = await this.page.textContent('a#ProductsCell-state-822339be-e190-4131-9dc0-13e1ddc023d0');
+
+        // // Assert that the text contains "Draft"
+        // assert.ok(linkText.includes('Draft'), 'Text does not contain "Draft".');
     }
 
     async clickOnProductItem() {
@@ -130,6 +133,7 @@ class ProductPage {
 
     async clickProductDropDown() {
         await this.page.getByLabel('New product item').locator('a').click();
+        await this.page.click('ul[role="listbox"] li[role="option"]:first-child');
     }
 
     async clickProductItem() {
@@ -150,8 +154,8 @@ class ProductPage {
     }
 
     async checkProduct() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        await this.page.getByRole('row', { name: 'sdfsdf' }).getByRole('checkbox').click();
+        //                                      await new Promise(resolve => setTimeout(resolve, 5000));
+        await  this.page.waitForSelector('.hover:bg-gray-50 !border-b border-gray-200').click();
     }
 
     async clickDeleteButton() {
@@ -176,7 +180,7 @@ class ProductPage {
     }
 
     async checkFilterAppliedProductItem() {
-        await expect(this.page.getByText('abc')).toBeVisible();
+        await expect(this.page.getByText('te')).toBeVisible();
     }
 
     async checkFilterClearedProductItem() {

@@ -38,8 +38,7 @@ test.describe("Employee Test Cases", () => {
     await employeePage.addRole();
     await employeePage.addNewRole();
     await employeePage.saveNewRole();
-    await employeePage.saveNewRole();
-    //await employeePage.clickSave();
+    await employeePage.clickSave();
    // await employeePage.saveValue();
     //await employeePage.clearRole();
     //await employeePage.clickEmployee();

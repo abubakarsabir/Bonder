@@ -119,8 +119,12 @@ class CustomerPage {
     async addCustomer() {
 
         await this.page.getByRole('button', { name: 'bbmmn' }).click();
+        await this.page.getByRole('button', { name: 'bbmmn' }).click();
+        const hoveringIcon = '//div[@class="relative basis-0 grow flex flex-col space-y-2 overflow-y-auto"]//div[1]//button[1]//i[1]';
+        await this.page.waitForSelector(hoveringIcon);
+        await this.page.click(hoveringIcon);
         await this.page.getByRole('button', { name: '' }).click();
-        await this.page.getByRole('button', { name: 'DETAILS' }).click();
+        //await this.page.getByRole('button', { name: 'DETAILS' }).click();
 
 
     }
@@ -132,7 +136,7 @@ class CustomerPage {
     }
 
     async saveAddedCustomer() {
-
+        await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.getByLabel('Edit customer').getByRole('button', { name: 'Cancel' }).click();
 
 

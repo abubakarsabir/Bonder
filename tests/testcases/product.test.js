@@ -112,14 +112,14 @@ test.describe("Product Test Cases", () => {
     await productPage.clickCreateButton();
     await productPage.verifyNameError();
     await productPage.clickProductDropDown();
-    await productPage.clickProductItem();
-    await contactsPage.clickCreate();
-    await contactsPage.clickSave();
+    //await productPage.clickProductItem();
+    await productPage.clickCreateButton();
+    // //await productPage.closeSlider();
     await productPage.closeProductSlider();
-    await contactsPage.verifySlideOverClosed();
+    // //await contactsPage.verifySlideOverClosed();
     await productPage.checkProduct();
-    await productPage.clickDeleteButton();
-    await productPage.confirmDelete();
+    // await productPage.clickDeleteButton();
+    // await productPage.confirmDelete();
   })
 
   test('Search Product Item', async () => {

@@ -65,7 +65,7 @@ test.describe("Customer Test Cases", () => {
     await customerPage.saveEditCustomer();
     await customerPage.searchCustomer();
     await customerPage.searchExistingCustomer();
-    await customerPage.clickEditButton();
+    //await customerPage.clickEditButton();
     await customerPage.addCustomer();
     await customerPage.clickSaveddedCustomerButton();
     await customerPage.saveAddedCustomer();
