@@ -7,6 +7,8 @@ class LoginPage {
 
     async navigate() {
         await this.page.goto("https://prototype.getbonder.com/backoffice/login");
+        await this.page.waitForLoadState('networkidle');
+        //await this.page.waitForURL('**/login');
     }
 
     async setEmail(email) {
@@ -42,8 +44,8 @@ class LoginPage {
     async verifyRedirect(expectedUrl) {
         await this.page.waitForURL(expectedUrl, { timeout: 200000 });
         expect(this.page.url()).toBe(expectedUrl);
-      }
-      
+    }
+
 
     async verifyContactEmail(email) {
         const emailElement = await this.page.waitForSelector(
@@ -59,6 +61,15 @@ class LoginPage {
         const loginButton = await this.page.$("button#loginButton");
         const isEnabled = await loginButton.isEnabled();
         expect(isEnabled).toBeTruthy();
+    }
+
+    async filterCreatedEmails() {
+        await this.page.click('//*[@id="UsersSortButtoncreatedAt"]/span');
+    }
+
+    async logOut(){
+        await this.page.click('[aria-current="page"][href="/backoffice/user"]');
+        await this.page.click('button.button.button--primary >> text="Log out"');
     }
 
 }
