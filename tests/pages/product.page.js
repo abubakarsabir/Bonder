@@ -47,7 +47,7 @@ class ProductPage {
     }
 
     async addDescription(description) {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+       // await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.waitForSelector('textarea[name="description-en"]');
         await this.page.fill('textarea[name="description-en"]', description);
     }
@@ -95,7 +95,6 @@ class ProductPage {
     async closeProductSlider() {
         await this.page.getByRole('button', { name: 'Close ' }).click();
         //await this.page.waitForTimeout(4000)
-        await this.page.getByRole('link', { name: 'te1213' }).toBeVisible()
     }
 
     async searchNonExistingProduct() {
@@ -108,7 +107,7 @@ class ProductPage {
     }
 
     async clickFilter() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        //await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.getByRole('cell', { name: 'Status' }).click();
     }
 
@@ -154,7 +153,7 @@ class ProductPage {
     }
 
     async verifyStatus() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        //await new Promise(resolve => setTimeout(resolve, 5000));
 
         const inputSelector = ('#headlessui-combobox-input-33');
 
@@ -209,7 +208,7 @@ class ProductPage {
     }
 
     async clickCreateButton() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+       // await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.getByRole('button', { name: 'Create' }).click();
         await this.page.waitForTimeout(4000)
     }
@@ -229,8 +228,9 @@ class ProductPage {
         await expect(this.page.getByText(productGroupName)).toBeVisible();
     }
 
-    async selectItemToEdit(productItem) {
-        await this.page.getByRole('link', { name: productItem }).click();
+    async selectItemToEdit(productItemName) {
+        await new Promise(resolve => setTimeout(resolve, 5000))
+        await this.page.getByRole('link', { name: productItemName }).click();
     }
 
     // async addImage() {
@@ -239,7 +239,7 @@ class ProductPage {
     // }
 
     async uploadImage() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+       // await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.locator('input[name="nameen"]').fill('test');
 
         const fileInput = await this.page.$('input[type="file"]');
@@ -254,10 +254,11 @@ class ProductPage {
 
     async saveUploadedfile() {
         await this.page.getByLabel('New content').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+        await expect(this.page.getByRole('heading', { name: 'Images' })).toBeVisible()
     }
 
     async savePicture() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+       // await new Promise(resolve => setTimeout(resolve, 5000));
         // await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
         // await this.page.getByLabel('New content').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
         await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click();
@@ -268,13 +269,13 @@ class ProductPage {
 
     async saveFinalChanges() {
         await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
-        await this.page.waitForTimeout(4000)
     }
 
 
     async clearImage() {
         // await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.locator('#removeButton').click();
+        await this.page.waitForTimeout(2000)
     }
 
     async navigateToProducts() {
@@ -287,7 +288,7 @@ class ProductPage {
     }
 
     async setProductAttributes() {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        //await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.locator('input[name="articlenumber"]').fill('12345');
         await this.page.locator('textarea[name="shortDescriptionen"]').fill('hello world');
         // await this.page.getByRole('button', { name: 'Save' }).click();

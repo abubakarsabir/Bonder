@@ -25,21 +25,19 @@ class EmployeePage {
     }
 
     async selectCustomer() {
-        await new Promise(resolve => setTimeout(resolve, 5000))
         await this.page.locator('.h-full tbody tr:nth-child(2)').click();
     }
 
     async selectRole() {
-        await new Promise(resolve => setTimeout(resolve, 5000))
         await this.page.getByRole('button', { name: 'ADD' }).nth(1).click();
     }
 
     async addRole() {
-        await new Promise(resolve => setTimeout(resolve, 5000))
         await this.page.getByRole('button', { name: 'Roles add' }).click();
     }
 
     async addNewRole() {
+        await this.page.waitForLoadState('networkidle');
         const link = await this.page.waitForSelector('a:has-text("ADMINISTRATORS")');
         await link.click();
     }

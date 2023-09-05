@@ -47,7 +47,6 @@ test.describe("Product Test Cases", () => {
   test('Create Product Group', async () => {
     //const randomSuffix = Math.floor(Math.random() * 10000);
     //const randomln = `te${randomSuffix}`;
-
     await productPage.openMenu();
     await productPage.clickNewProductGroups();
     await contactsPage.clickCreate();
@@ -94,6 +93,7 @@ test.describe("Product Test Cases", () => {
     await contactsPage.clickSave();
     await productPage.closeProductSlider();
     await contactsPage.verifySlideOverClosed();
+    await productPage.searchExistingProduct(productName)
   })
 
   test('Search Product', async () => {
@@ -108,6 +108,7 @@ test.describe("Product Test Cases", () => {
   })
 
   test('Create New Product Item', async () => {
+    
     await contactsPage.verifySlideOverClosed();
 
     await productPage.openMenu();
@@ -146,18 +147,24 @@ test.describe("Product Test Cases", () => {
   })
 
   test('Edit Product Item', async () => {
+    const productItemName = 'te1213'
     await productPage.openMenu();
     await productPage.clickOnProductItem();
-    await productPage.selectItemToEdit('te6455');
+    await productPage.searchExistingProductItem(productItemName)
+    await productPage.selectItemToEdit(productItemName);
     await productPage.addImage();
     await productPage.clickNewContent()
     await productPage.uploadImage();
     await productPage.saveUploadedfile();
     await productPage.savePicture();
-    await productPage.saveFinalChanges();
-    await productPage.selectItemToEdit('te6455');
-    await productPage.clearImage();
     //await productPage.saveFinalChanges();
+    //await productPage.closeProductSlider()
+    //await productPage.searchExistingProductItem(productItemName)
+    //await productPage.selectItemToEdit(productItemName);
+
+    await productPage.clearImage();
+    await productPage.saveFinalChanges();
+    await productPage.closeProductSlider()
   })
 
   test('Edit Product', async () => {
