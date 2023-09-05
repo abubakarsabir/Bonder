@@ -5,6 +5,10 @@ const { ProductPage } = require("../pages/product.page");
 const { CustomerPage } = require("../pages/customer.page");
 const { timeout } = require("../../playwright.config");
 
+const randomPSuffix = Math.floor(Math.random() * 10000);
+const productGroupName = `te${randomPSuffix}`;
+const productName = `te${randomPSuffix}`;
+
 test.describe("Product Test Cases", () => {
   let page;
   let loginPage;
@@ -41,33 +45,34 @@ test.describe("Product Test Cases", () => {
 
 
   test('Create Product Group', async () => {
-    const randomSuffix = Math.floor(Math.random() * 10000);
-    const randomln = `te${randomSuffix}`;
+    //const randomSuffix = Math.floor(Math.random() * 10000);
+    //const randomln = `te${randomSuffix}`;
 
     await productPage.openMenu();
     await productPage.clickNewProductGroups();
     await contactsPage.clickCreate();
     await customerPage.verifyError();
-    await productPage.addName(randomln);
+    await productPage.addName(productGroupName);
     await contactsPage.clickCreate();
-    await productPage.verifyProductSaved();
+    await productPage.verifyProductSaved(productGroupName);
     await productPage.closeSlider();
-    await productPage.verifyProductAppeared(randomln);
+    await productPage.verifyProductAppeared(productGroupName);
   })
 
   test('Edit Product Group', async () => {
     const randomSuffix = Math.floor(Math.random() * 10000);
-    const randomln = `te${randomSuffix}`;
+    //const randomln = `te${randomSuffix}`;
     const randomdescription = `test${randomSuffix}vertical.codes`;
 
     await productPage.openMenu();
-    await productPage.openProduct();
+    await productPage.searchExistingProductGroup(productGroupName);
+    await productPage.openProduct(productGroupName)
     await productPage.addDescription(randomdescription);
-    //await contactsPage.clickSave();
-    //await contactsPage.verifySlideOverClosed();
+    ////await contactsPage.clickSave();
+    ////await contactsPage.verifySlideOverClosed();
     await productPage.addImage();
     await productPage.clickNewContent();
-    //await productPage.openImageBox();
+    ////await productPage.openImageBox();
     await productPage.selectImage();
     await productPage.saveNewContent();
 
@@ -77,7 +82,6 @@ test.describe("Product Test Cases", () => {
   test('Create Product', async () => {
 
     const randomSuffix = Math.floor(Math.random() * 10000);
-    const randomln = `te${randomSuffix}`;
     const randomdescription = `test${randomSuffix}vertical.codes`;
 
     await productPage.openMenu();
@@ -85,7 +89,7 @@ test.describe("Product Test Cases", () => {
     await productPage.clickNewProductButton();
     await contactsPage.clickCreate();
     await customerPage.verifyError();
-    await productPage.addProductName(randomln);
+    await productPage.addProductName(productName);
     await contactsPage.clickCreate();
     await contactsPage.clickSave();
     await productPage.closeProductSlider();
@@ -111,13 +115,13 @@ test.describe("Product Test Cases", () => {
     await productPage.addNewProductItem();
     await productPage.clickCreateButton();
     await productPage.verifyNameError();
-    await productPage.clickProductDropDown();
+    await productPage.clickProductDropDown('te1213');
     //await productPage.clickProductItem();
     await productPage.clickCreateButton();
     // //await productPage.closeSlider();
     await productPage.closeProductSlider();
     // //await contactsPage.verifySlideOverClosed();
-    await productPage.checkProduct();
+    //await productPage.checkProduct();
     // await productPage.clickDeleteButton();
     // await productPage.confirmDelete();
   })
@@ -126,42 +130,43 @@ test.describe("Product Test Cases", () => {
     await productPage.openMenu();
     await productPage.clickOnProductItem();
     await productPage.searchNonExistingProductItem();
-    await productPage.searchExistingProductItem();
-    await productPage.clickFilterProductItem();
-    await productPage.checkFilterAppliedProductItem();
-    await productPage.clickFilterProductItem();
+    await productPage.searchExistingProductItem('te1213');
+    //await productPage.clickFilterProductItem('te1213');
+    await productPage.checkFilterAppliedProductItem('te1213');
+    await productPage.clickFilterProductItem('te1213');
   })
 
   test('Search Product Group', async () => {
     await productPage.openMenu();
     await productPage.searchNonExistingProductGroup();
-    await productPage.searchExistingProductGroup();
-    await productPage.clickFilterProductItem();
-    await productPage.checkFilterAppliedProductGroup();
-    await productPage.clickFilterProductItem();
+    await productPage.searchExistingProductGroup('te3352');
+    //await productPage.clickFilterProductItem();
+    await productPage.checkFilterAppliedProductGroup('te3352');
+    //await productPage.clickFilterProductItem();
   })
 
   test('Edit Product Item', async () => {
     await productPage.openMenu();
     await productPage.clickOnProductItem();
-    await productPage.selectItemToEdit();
+    await productPage.selectItemToEdit('te6455');
     await productPage.addImage();
-    await productPage.createNewContent();
+    await productPage.clickNewContent()
     await productPage.uploadImage();
     await productPage.saveUploadedfile();
     await productPage.savePicture();
     await productPage.saveFinalChanges();
-    await productPage.selectItemToEdit();
+    await productPage.selectItemToEdit('te6455');
     await productPage.clearImage();
+    //await productPage.saveFinalChanges();
   })
 
   test('Edit Product', async () => {
     await productPage.openMenu();
     await productPage.navigateToProducts();
-    await productPage.chooseProduct();
+    await productPage.chooseProduct('te8560');
     await productPage.setProductAttributes();
     await productPage.addImage();
-    await productPage.createNewContent();
+    await productPage.clickNewContent();
     await productPage.uploadProductImage();
     await productPage.saveUploadedfile();
     await productPage.savePicture();

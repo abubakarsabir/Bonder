@@ -32,15 +32,18 @@ class ProductPage {
         await this.page.locator('//*[@id="closeSlideOver"]').click();
     }
 
-    async verifyProductAppeared(name) {
-        const actualText = await this.page.textContent('//*[@id="app"]/div[1]/div[4]/div/div/div[2]/div[5]/main/section[2]/div/div/div/table/tbody/tr[1]/td[3]');
-        const expectedText = name;
-        expect(actualText).toBeTruthy();
+    async verifyProductAppeared(productName) {
+        await this.searchExistingProductGroup(productName)
+        const element = await this.page.locator("xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/div[1]/div[2]/div[5]/main[1]/section[2]/div[1]/div[1]/div[1]/table[1]/tbody[1]");
+        const text = await element.allTextContents();
+        //console.log(text)
+        expect(text).toContain(productName);
+        //expect(productName).toBeTruthy();
     }
 
-    async openProduct() {
+    async openProduct(Name) {
 
-        await this.page.getByRole('link', { name: ',bjb,' }).click();
+        await this.page.getByRole('link', { name: Name }).click();
     }
 
     async addDescription(description) {
@@ -50,7 +53,9 @@ class ProductPage {
     }
 
     async addImage() {
-        await this.page.locator('span.tag--content:has-text("ADD")').first().click();
+        //await this.page.locator('span.tag--content:has-text("ADD")').first().click();
+        const button = await this.page.getByText('none ImagesADD').filter({hasText:'ADD'})
+        await button.getByRole('button',{name: 'ADD'}).click()
     }
 
     async openImageBox() {
@@ -89,6 +94,8 @@ class ProductPage {
 
     async closeProductSlider() {
         await this.page.getByRole('button', { name: 'Close ' }).click();
+        //await this.page.waitForTimeout(4000)
+        await this.page.getByRole('link', { name: 'te1213' }).toBeVisible()
     }
 
     async searchNonExistingProduct() {
@@ -121,6 +128,7 @@ class ProductPage {
 
     async clickOnProductItem() {
         await this.page.getByRole('link', { name: 'Product items' }).click();
+        await this.page.waitForTimeout(4000)
     }
 
     async addNewProductItem() {
@@ -131,8 +139,13 @@ class ProductPage {
         await expect(this.page.getByText('Product is a required field')).toBeVisible();
     }
 
-    async clickProductDropDown() {
-        await this.page.getByLabel('New product item').locator('a').click();
+    async clickProductDropDown(productName) {
+        await this.page.getByPlaceholder('No product selected').click()
+        await this.page.waitForTimeout(4000);
+        await this.page.getByPlaceholder('No product selected').fill('')
+        //await this.page.locator('xpath=/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[1]/div[3]/div[1]/div[1]/div[1]/input[1]').fill('')
+        //await this.page.locator('xpath=/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[1]/div[3]/div[1]/div[1]/div[1]/input[1]').fill(productName)
+        //await this.page.getByLabel('New product item').locator('a').click();
         await this.page.click('ul[role="listbox"] li[role="option"]:first-child');
     }
 
@@ -155,7 +168,7 @@ class ProductPage {
 
     async checkProduct() {
         //                                      await new Promise(resolve => setTimeout(resolve, 5000));
-        await  this.page.waitForSelector('.hover:bg-gray-50 !border-b border-gray-200').click();
+        await this.page.getByRole('link', { name: 'te1213' }).toBeVisible()
     }
 
     async clickDeleteButton() {
@@ -170,17 +183,22 @@ class ProductPage {
         await this.page.fill('//*[@id="ProductItemSearchPhraseTextBox"]', 'random');
     }
 
-    async searchExistingProductItem() {
+    async searchExistingProductItem(productName) {
         await this.page.fill('//*[@id="ProductItemSearchPhraseTextBox"]', '');
-        await this.page.type('//*[@id="ProductItemSearchPhraseTextBox"]', 'te');
+        await this.page.type('//*[@id="ProductItemSearchPhraseTextBox"]', productName);
+        await this.page.waitForTimeout(4000)
     }
 
-    async clickFilterProductItem() {
-        await this.page.getByRole('cell', { name: 'Name' }).click();
+    async clickFilterProductItem(productName) {
+        await this.searchExistingProductItem(productName)
+        await this.page.getByRole('link', { name: productName }).click();
     }
 
-    async checkFilterAppliedProductItem() {
-        await expect(this.page.getByText('te')).toBeVisible();
+    async checkFilterAppliedProductItem(productName) {
+        await this.searchExistingProductItem(productName)
+        const element = await this.page.locator('xpath=/html[1]/body[1]/div[1]/div[1]/div[4]/div[1]/div[1]/div[2]/div[5]/main[1]/section[2]/div[1]/div[1]/div[1]/table[1]/tbody[1]');
+        const text = await element.allTextContents();
+        expect(text).toContain(productName);
     }
 
     async checkFilterClearedProductItem() {
@@ -193,33 +211,32 @@ class ProductPage {
     async clickCreateButton() {
         await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.getByRole('button', { name: 'Create' }).click();
+        await this.page.waitForTimeout(4000)
     }
 
     async searchNonExistingProductGroup() {
         await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', 'random');
     }
 
-    async searchExistingProductGroup() {
+    async searchExistingProductGroup(productName) {
         await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', ' ');
-        await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', 'te');
+        await this.page.fill('//*[@id="ProductgroupsSearchPhraseTextBox"]', productName);
+        await this.page.waitForTimeout(4000)
+        
     }
 
-    async checkFilterAppliedProductGroup() {
-        await expect(this.page.getByText('te1103')).toBeVisible();
+    async checkFilterAppliedProductGroup(productGroupName) {
+        await expect(this.page.getByText(productGroupName)).toBeVisible();
     }
 
-    async selectItemToEdit() {
-        await this.page.getByRole('link', { name: 'te2110' }).click();
+    async selectItemToEdit(productItem) {
+        await this.page.getByRole('link', { name: productItem }).click();
     }
 
     // async addImage() {
     //     const secondTableRow = await this.page.waitForSelector('table tbody tr:nth-child(2)');
     //     await secondTableRow.click();
     // }
-
-    async createNewContent() {
-        await this.page.getByRole('button', { name: 'New content' }).click({ timeout: 5 * 60 * 1000 });
-    }
 
     async uploadImage() {
         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -244,11 +261,16 @@ class ProductPage {
         // await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
         // await this.page.getByLabel('New content').getByRole('button', { name: 'Save' }).click({timeout: 5 * 60 * 1000});
         await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click();
+        //await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click();
+        //await this.closeSlider()
+        await this.page.waitForTimeout(4000)
     }
 
     async saveFinalChanges() {
         await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+        await this.page.waitForTimeout(4000)
     }
+
 
     async clearImage() {
         // await new Promise(resolve => setTimeout(resolve, 5000));
@@ -257,10 +279,11 @@ class ProductPage {
 
     async navigateToProducts() {
         await this.page.getByRole('link', { name: 'Products', exact: true }).click();
+        await this.page.waitForTimeout(4000)
     }
 
-    async chooseProduct() {
-        await this.page.locator('//a[@id="ProductsCell-Productgroup.BaseInfo.Name-822339be-e190-4131-9dc0-13e1ddc023d0"]').click();
+    async chooseProduct(productName) {
+        await this.page.getByRole('link', { name: productName }).click();
     }
 
     async setProductAttributes() {

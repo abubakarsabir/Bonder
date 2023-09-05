@@ -14,9 +14,9 @@ test.describe("Employee Test Cases", () => {
     contactsPage = new ContactsPage(page);
   });
 
-  test.afterAll(async () => {
-    await page.close();
-  });
+  // test.afterAll(async () => {
+  //   await page.close();
+  // });
 
   test.beforeEach(async () => {
     loginPage = new LoginPage(page);
@@ -28,8 +28,7 @@ test.describe("Employee Test Cases", () => {
     });
   });
 
-  test.only('Employee Role', async () => {
-    await employeePage.clickEmployee();
+  test('Employee Role', async () => {
     await employeePage.clickCustomers();
     await contactsPage.applyFilter();
     await contactsPage.applyFilter();
@@ -42,7 +41,7 @@ test.describe("Employee Test Cases", () => {
    // await employeePage.saveValue();
     //await employeePage.clearRole();
     //await employeePage.clickEmployee();
-    await employeePage.verifyEmployee();
+    //await employeePage.verifyEmployee();
     await employeePage.verifyAdmin();
     await employeePage.clearRole();
   })

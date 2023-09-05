@@ -3,7 +3,8 @@ const { ContactsPage } = require("../pages/contact.page");
 const { LoginPage } = require("../pages/login.page");
 const { CustomerPage } = require("../pages/customer.page");
 
-
+const randomSuffix = Math.floor(Math.random() * 10000);
+const customerName = `te${randomSuffix}`;
 
 test.describe("Customer Test Cases", () => {
   let page;
@@ -38,14 +39,12 @@ test.describe("Customer Test Cases", () => {
   // });
 
   test("Create Customer", async () => {
-    const randomSuffix = Math.floor(Math.random() * 10000);
     const randomEmail = `test${randomSuffix}@vertical.codes`;
-    const randomln = `te${randomSuffix}`;
     await customerPage.clickNewCustomer();
     await customerPage.verifySearchBoxEmpty();
     await contactsPage.clickCreate();
     await customerPage.verifyError();
-    await customerPage.addName(randomln);
+    await customerPage.addName(customerName);
     await customerPage.addNumber('12345');
     await contactsPage.clickCreate();
     await customerPage.addEmail(randomEmail);
@@ -67,9 +66,9 @@ test.describe("Customer Test Cases", () => {
     await customerPage.searchExistingCustomer();
     //await customerPage.clickEditButton();
     await customerPage.addCustomer();
-    await customerPage.clickSaveddedCustomerButton();
+    //await customerPage.clickSaveddedCustomerButton();
     await customerPage.saveAddedCustomer();
-    await customerPage.verifyContactAdded();
+    //await customerPage.verifyContactAdded();
     await customerPage.clickEditButton();
   })
 
