@@ -74,7 +74,8 @@ test.describe("Product Test Cases", () => {
     ////await productPage.openImageBox();
     await productPage.selectImage();
     await productPage.saveNewContent();
-
+    await productPage.savePicture()
+    await productPage.saveFinalChangesProductGroup();
 
   })
 
@@ -170,8 +171,9 @@ test.describe("Product Test Cases", () => {
   test('Edit Product', async () => {
     await productPage.openMenu();
     await productPage.navigateToProducts();
-    await productPage.chooseProduct('te8560');
+    await productPage.chooseProduct('te1213');
     await productPage.setProductAttributes();
+    await productPage.deleteProductImage()
     await productPage.addImage();
     await productPage.clickNewContent();
     await productPage.uploadProductImage();

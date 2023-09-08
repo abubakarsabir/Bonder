@@ -39,6 +39,7 @@ class ContactsPage {
 
     async clickCreate() {
         await this.page.click('//*[@id="dropdown-selected-item-button"]');
+        await this.page.waitForTimeout(4000)
     }
 
     async verifyValidationError(errorText) {

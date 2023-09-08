@@ -54,7 +54,8 @@ class ProductPage {
 
     async addImage() {
         //await this.page.locator('span.tag--content:has-text("ADD")').first().click();
-        const button = await this.page.getByText('none ImagesADD').filter({hasText:'ADD'})
+        const button = await this.page.getByText('ImagesADD').filter({hasText:'ADD'})
+        //locator('div').filter({ hasText: /^ImagesADD$/ }).getByRole('button').nth(1)
         await button.getByRole('button',{name: 'ADD'}).click()
     }
 
@@ -264,11 +265,16 @@ class ProductPage {
         await this.page.getByLabel('Images').getByRole('button', { name: 'Save' }).click();
         //await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click();
         //await this.closeSlider()
-        await this.page.waitForTimeout(4000)
+        await expect(this.page.getByRole('heading', { name: 'Edit product' })).toBeVisible()  
     }
 
     async saveFinalChanges() {
         await this.page.getByLabel('Edit product item').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+    }
+
+    async saveFinalChangesProductGroup() {
+        await this.page.getByLabel('Edit Product Group').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
+        await this.page.waitForTimeout(5000)
     }
 
 
@@ -276,6 +282,18 @@ class ProductPage {
         // await new Promise(resolve => setTimeout(resolve, 5000));
         await this.page.locator('#removeButton').click();
         await this.page.waitForTimeout(2000)
+    }
+
+    async deleteProductImage(){
+        console.log('Ali')
+        const status = await this.page.locator('#removeButton').isVisible()
+        await this.page.evaluate((status)=>{
+            console.log(status)
+        },status)
+
+        if(status){
+            await this.clearImage()
+        } else {}
     }
 
     async navigateToProducts() {
@@ -289,6 +307,7 @@ class ProductPage {
 
     async setProductAttributes() {
         //await new Promise(resolve => setTimeout(resolve, 5000));
+        await this.page.locator('input[name="articlenumber"]').toBeVisible();
         await this.page.locator('input[name="articlenumber"]').fill('12345');
         await this.page.locator('textarea[name="shortDescriptionen"]').fill('hello world');
         // await this.page.getByRole('button', { name: 'Save' }).click();
@@ -307,7 +326,7 @@ class ProductPage {
     }
 
     async setUnitValue() {
-        await this.page.locator('#headlessui-combobox-button-14 a').click();
+        await this.page.locator('div[class="form-group"] div[class="flex"] i[class="fa-solid fa-angle-down h-3 w-3 text-gray-400"]').click();
         await this.page.getByText('Pieces').click();
         // await this.page.getByText('Pieces').click({timeout:50000});
         // await new Promise(resolve => setTimeout(resolve, 5000));
@@ -319,7 +338,7 @@ class ProductPage {
 
     async removeUnitValue() {
         // await new Promise(resolve => setTimeout(resolve, 5000));
-        await this.page.locator('#headlessui-combobox-button-14 a').click();
+        await this.page.locator('div[class="form-group"] div[class="flex"] i[class="fa-solid fa-angle-down h-3 w-3 text-gray-400"]').click();
         await this.page.getByText('Unknown').click();
     }
 
