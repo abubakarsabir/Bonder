@@ -102,9 +102,9 @@ class ProductPage {
         await this.page.type('#ProductsSearchPhraseTextBox', 'random');
     }
 
-    async searchExistingProduct() {
+    async searchExistingProduct(productName) {
         await this.page.fill('#ProductsSearchPhraseTextBox', '');
-        await this.page.type('#ProductsSearchPhraseTextBox', 'te');
+        await this.page.type('#ProductsSearchPhraseTextBox', productName);
     }
 
     async clickFilter() {
@@ -274,7 +274,6 @@ class ProductPage {
 
     async saveFinalChangesProductGroup() {
         await this.page.getByLabel('Edit Product Group').getByRole('button', { name: 'Save' }).click({ timeout: 5 * 60 * 1000 });
-        await this.page.waitForTimeout(5000)
     }
 
 
@@ -298,7 +297,7 @@ class ProductPage {
 
     async navigateToProducts() {
         await this.page.getByRole('link', { name: 'Products', exact: true }).click();
-        await this.page.waitForTimeout(4000)
+        await this.page.waitForLoadState('networkidle');
     }
 
     async chooseProduct(productName) {
@@ -307,7 +306,6 @@ class ProductPage {
 
     async setProductAttributes() {
         //await new Promise(resolve => setTimeout(resolve, 5000));
-        await this.page.locator('input[name="articlenumber"]').toBeVisible();
         await this.page.locator('input[name="articlenumber"]').fill('12345');
         await this.page.locator('textarea[name="shortDescriptionen"]').fill('hello world');
         // await this.page.getByRole('button', { name: 'Save' }).click();

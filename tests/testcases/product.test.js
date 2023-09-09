@@ -101,7 +101,7 @@ test.describe("Product Test Cases", () => {
     await productPage.openMenu();
     await productPage.clickProductsOption();
     await productPage.searchNonExistingProduct();
-    await productPage.searchExistingProduct();
+    await productPage.searchExistingProduct('te');
     await productPage.clickFilter();
     await productPage.checkFilterApplied();
     await productPage.clickFilter();
@@ -171,7 +171,8 @@ test.describe("Product Test Cases", () => {
   test('Edit Product', async () => {
     await productPage.openMenu();
     await productPage.navigateToProducts();
-    await productPage.chooseProduct('te1213');
+    await productPage.searchExistingProduct('te8560')
+    await productPage.chooseProduct('te8560');
     await productPage.setProductAttributes();
     await productPage.deleteProductImage()
     await productPage.addImage();
